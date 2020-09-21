@@ -1,0 +1,107 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>正在编辑</title>
+    <style type="text/css">
+        table { font-size:12px; width:70%; table-layout:fixed; empty-cells:show; border-collapse: collapse; margin:0 auto; border:1px solid #cad9ea; color:#666; }
+        #add {position:absolute; left:350px; top: 0}
+        #img1 {width: 30px; height: 30px}
+        th { background-image: url('/img/images/th_bg1.gif'); background-repeat:repeat-x; height:30px; cursor:pointer; }
+        td { height:20px; text-align: center;}
+        td, th { border:1px solid #cad9ea; padding:0 1em 0; }
+        td.sorted { background: #ffd; }
+        th.sorted-asc { background: url('/img/images/icons/arrow_up.png') no-repeat 0 50%; }
+        th.sorted-desc { background: url('/img/images/icons/arrow_down.png') no-repeat 0 50%; }
+        tr.even, tr.first { background-color: #fff; }
+        tr.odd, tr.second { background-color: #f5fafe; }
+        tr.third { background-color: #ccc; }
+        tr.odd_row{background-color:#e4f2fb}
+        tr.even_row{background-color: #f8f8f8}
+        tr.odd_row:hover,tr.even_row:hover,tr.odd_row:hover a,tr.even_row:hover a{background-color:#ffd900}
+        .p1{margin-left: 40%}
+        .p2{list-style-type:none; width:100%; float: left; display:block;}
+        li{float: left}
+        a{text-decoration:none; color: black}
+    </style>
+
+    <script src="/jQuery/jquery-3.3.1.js"></script>
+    <script src="/jQuery/jquery.tablesorter.js"></script>
+    <script src="/jQuery/jquery.tablePagination.0.2.js"></script>
+    <script src="/jQuery/jquery.uitablefilter.js"></script>
+    <script src="/jQuery/tableRowCheckboxToggle.js"></script>
+
+</head>
+
+<body>
+<div style="text-align:left;">
+
+    <form action="/show_leave_info_school" method="get">
+        按<select name="field">
+        <option value="leave_start" selected="${field == 'leave_start'}">学期</option>
+        <option value="leave_reason" selected="${field == 'leave_reason'}">请假原因</option>
+        <option value="leave_start" selected="${field == 'leave_start'}">请假时间</option>
+        <option value="leave_type" selected="${field == 'leave_type'}">请假类型</option>
+        <option value="default" selected="${field == 'default'}">默认</option>
+    </select>查询
+        <input type="text" name="condition" th:value="${condition}"/>
+        <input type="hidden" value="1" name="page_number" />
+        <input type="hidden" value="5" name="page_size" />
+        <input name="" type="submit" style=" width:50px; height:18px; border:0; background:url('/images/serchbutton.gif') no-repeat left top" value=""  />
+        <!--<input type="submit" value="查询"/>-->
+    </form>
+</div>
+
+<div>
+    <table id="grid" class="filter">
+        <tr>
+            <th width="65" scope="col">序号</th>
+            <th width="100" scope="col">学号</th>
+            <th width="69" scope="col">姓名</th>
+            <th width="200" scope="col">申请提交时间</th>
+            <th width="110" scope="col">请假开始</th>
+            <th width="110" scope="col">请假结束</th>
+            <th width="110" scope="col">请假天数</th>
+            <th width="110" scope="col">请假类型</th>
+            <th width="110" scope="col">请假原因</th>
+            <th width="100" scope="col">操作</th>
+        </tr>
+        <tr th:each="item, itemStat: ${leave_list_school}">
+            <td th:text="${itemStat.index + 1}"></td>
+            <td th:text="${item.stu_no}"></td>
+            <td th:text="${item.stu_name}"></td>
+            <td th:text="${item.submit_datetime}"></td>
+            <td th:text="${item.leave_start}"></td>
+            <td th:text="${item.leave_end}"></td>
+            <td th:text="${item.leave_days}"></td>
+            <td th:text="${item.leave_type}"></td>
+            <td th:text="${item.leave_reason}"></td>
+            <td>
+                <a th:href="@{'agree_leave_school?submit_datetime=' + ${item.submit_datetime}}" th:text="同意"></a>
+                <a th:href="@{'disagree_leave?submit_datetime=' + ${item.submit_datetime}}" th:text="不同意"></a>
+            </td>
+        </tr>
+    </table>
+    <div class="p1">
+        <ul class="p2">
+            <span th:text="第+${page_number}+ 页"></span>
+            <li><a th:href="@{/show_leave_info_school(
+        field=${field},
+        condition=${condition},
+        page_number=(${page_number}-1),
+        page_size=5)}">上一页 &nbsp;</a></li>
+            <li><a href="#">1 &nbsp;</a></li>
+            <li><a href="#">2 &nbsp;</a></li>
+            <li><a href="#">3 &nbsp;</a></li>
+            <li><a href="#">4 &nbsp;</a></li>
+            <li><a href="#">5 &nbsp;</a></li>
+            <li><a th:href="@{/show_leave_info_school(
+        field=${field},
+        condition=${condition},
+        page_number=(${page_number}+1),
+        page_size=5)}">下一页</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

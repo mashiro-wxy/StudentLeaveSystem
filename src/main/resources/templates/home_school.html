@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>主页</title>
+    <style>
+        #banner{
+            width:100%;
+            height:80px;
+            background-image:url('/images/9.jpg');
+            background-position:top center;
+            margin:0 auto;
+        }
+        #main{width:auto;background-color:silver;margin:5px  auto;}
+        #accordion,#tabs{float:left}
+        #accordion{width:11%;}
+        a{text-decoration:none; color: black}
+        #tabs{width:88%;margin:0px auto}
+        #accordion p{cursor:pointer}
+        #hello{position: absolute; left: 150px; top: 50px; color: white}
+    </style>
+    <link href="/jQuery/jquery-ui.css" rel="stylesheet" />
+    <script src="/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="/jQuery/jquery-ui.js"></script>
+    <script>
+        $(function(){
+            var path=$("#path").val();
+            var funList = ["sysTab"];
+            var funPage={
+                "role":["<li id='roleTab'><a href='#roleTabPage'>待审核</a></li>",
+                    "<div id='roleTabPage'><iframe style='height:80vh' name='tab1' marginwidth='0' marginheight='0' width='100%' src='info_school_s.html' frameborder='0'></iframe></div>"],
+                "pms":["<li id='pmsTab'><a href='#pmsTabPage'>未通过</a></li>",
+                    "<div id='pmsTabPage'><iframe style='height:80vh' name='tab1' marginwidth='0' marginheight='0' width='100%' src='unpass_fdy.html' frameborder='0'></iframe></div>"],
+                "data":["<li id='dataTab'><a href='#dataTabPage'>已通过</a></li>",
+                    "<div id='dataTabPage'><iframe style='height:80vh' name='tab1' marginwidth='0' marginheight='0' width='100%' src='pass_fdy.html' frameborder='0'></iframe></div>"],
+                "list":["<li id='listTab'><a href='#listTabPage'>统计结果</a></li>",
+                    "<div id='listTabPage'><iframe style='height:80vh' name='tab1' marginwidth='0' marginheight='0' width='100%' src='tongji_s.html' frameborder='0'></iframe></div>"],
+                "gd":["<li id='gdPwdTab'><a href='#gdTabPage'>已通过</a></li>",
+                    "<div id='gdTabPage'><iframe style='height:80vh' name='tab1' marginwidth='0' marginheight='0' width='100%' src='gdp.html' frameborder='0'></iframe></div>"],
+                "ugd":["<li id='ugdTab'><a href='#ugdTabPage'>未通过</a></li>",
+                    "<div id='ugdTabPage'><iframe style='height:80vh' name='tab1' marginwidth='0' marginheight='0' width='100%' src='gdup.html' frameborder='0'></iframe></div>"],
+               "updatePwd":["<li id='updatePwdTab'><a href='#updatePwdTabPage'>修改密码</a></li>",
+                    "<div id='updatePwdTabPage'><iframe style='height:80vh' name='tab1' marginwidth='0' marginheight='0' width='100%' src='show_update_pwd_s.html' frameborder='0'></iframe></div>"],
+                "quiz":["<li id='quizTab'><a href='#quizTabPage'>退出</a></li>",
+                    "<div id='quizTabPage'><iframe style='height:80vh' name='tab1' marginwidth='0' marginheight='0' width='100%' src='login_s.html' frameborder='0'></iframe></div>"]}
+            $("#dialog").dialog({autoOpen:false,modal:true});
+            $("#accordion").accordion();
+            $("#tabs").tabs();
+            $("#quiz").click(function() {
+                confirm("确定退出?");
+            });
+            $("#accordion p").click(function(){
+                //alert(this.id);
+                var index = funList.indexOf(this.id+"Tab");
+                if(index<0){
+                    funList.push(this.id+"Tab");
+                    $("#tabs ul").append($(funPage[this.id][0]));
+                    $("#tabs").append($(funPage[this.id][1]));
+                    $("#"+this.id+"TabPage").load(this.id+".html");
+                    $("#tabs").tabs("refresh").tabs({active:funList.length-1});
+                }
+                else
+                    $("#tabs").tabs({active:index});
+            });
+            $("#tabs ul").on("dblclick","li",function(){
+                var id = this.id;
+                if(id=="sysTab") return;
+                $("#dialog").dialog({buttons:{
+                        OK:function(){
+                            $("#"+id).remove();
+                            $("#"+id+"Page").remove();
+                            funList.splice(funList.indexOf(id),1);
+                            $(this).dialog("close");
+                            $("#tabs").tabs("refresh").tabs({active:funList.length-1});
+                            //alert(funList);
+                        },
+                        Cancel:function(){
+                            $(this).dialog("close");
+                        }
+                    }}).dialog("open");
+            });
+        })
+    </script>
+</head>
+
+<body>
+<div id="hello" th:text="'欢迎您!' + ${a_school_info.school_name} + '!'"></div>
+<div id="dialog" title="删除确认"><p>确定要删除吗？</p></div>
+<div id="banner" style="text-align: center;"><h1>请假管理系统</h1></div>
+
+<div id="main">
+    <div id="accordion">
+        <h3>学生请假</h3>
+        <div>
+
+            <p id="role">待处理</p>
+            <p id="pms">未通过</p>
+            <p id="data">已通过</p>
+        </div>
+        <h3>统计</h3>
+        <div>
+            <p id="list">统计结果</p>
+        </div>
+        <h3>归档</h3>
+        <div>
+            <p id="gd">已通过</p>
+            <p id="ugd">未通过</p>
+        </div>
+        <h3>设置</h3>
+        <div>
+            <p id="updatePwd">修改密码</p>
+            <a th:href="@{'show_login'}"> <p id="quiz">退出</p></a>
+        </div>
+    </div>
+    <div id="tabs">
+        <ul>
+            <li id="sysTab"><a href="#sysTabPage">欢迎页</a></li>
+        </ul>
+        <div id="sysTabPage" style="text-align: center;"><img src="/images/10.jpg" /></div>
+    </div>
+</div>
+
+<input id="'path" type="hidden" value="${pageContext.request.contextPath}">
+</body>
+</html>

@@ -1,0 +1,40 @@
+@charset "UTF-8";
+.main {
+	margin: 0px 0px 30px 0px;
+	padding: 0px 0px 0px 0px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 150%;
+	text-align: center;
+	vertical-align: top;
+}
+.headtable {
+	width: 100%;
+}
+#divmenu {
+	width: 100%;
+	border-top-width: 4px;
+	border-top-style: solid;
+	border-top-color: #82B211;
+	background-color: #1C3F09;
+	text-align: center;
+	padding: 10px 0px 10px 0px;
+	font-size: 14px;
+}
+#divmenu a {
+	font-size: 14px;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding: 10px 10px 10px 10px;
+}
+#divmenu a:link {
+	text-decoration: none;
+	font-weight: bold;
+}
+a {
+	font-size: 12px;
+	color: #0066FF;
+}
+a:link {
+	text-decoration: none;
+}

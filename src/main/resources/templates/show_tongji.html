@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>统计</title>
+    <style type="text/css">
+
+        a{text-decoration:none; color: black}
+    </style>
+    <script src="js/echarts.min.js"></script>
+</head>
+<body>
+<div id="main" style="width: 600px;height:400px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+
+    var myChart = echarts.init(document.getElementById('main'));
+    //var bing = document.getElementById("bing").innerHTML;
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '请假统计'
+        },
+        tooltip: {},
+        legend: {
+            data:['人次']
+        },
+        xAxis: {
+            data: ["病假","事假","补假","公假"]
+        },
+        yAxis: {},
+        series: [{
+            name: '人次',
+            type: 'bar',
+            data: [6, 4, 1, 2]
+        },//折线图
+            {
+                name:"人次",
+                type:"line",
+                data:[6, 4, 1, 2],
+                //绘制平均线
+                markLine : {
+                    data : [
+                        {
+                            type : 'average',
+                            name: '平均值'
+                        }
+                    ]
+                },
+                //绘制最高最低点
+                markPoint : {
+                    data : [
+                        {
+                            type : 'max',
+                            name: '最大值'
+                        },
+                        {
+                            type : 'min',
+                            name: '最小值'
+                        }
+                    ]
+                }
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+<div>
+    <form>
+        <a href="show_tongji"><div>统计</div></a>
+        <div>请假最多时间段 <span th:text="${m}+月"></span>
+            <span th:text="共有+${mostTime}+次请假"></span>
+        </div>
+        <div>请假类型</div>
+        <div>病假人数:<span th:text="${bing}"></span></div>
+        <div>事假人数:<span th:text="${shi}"></span></div>
+        <div>补假人数:<span th:text="${bu}"></span></div>
+        <div>公假人数:<span th:text="${gong}"></span></div>
+    </form>
+</div>
+
+<div id="bing" hidden="hidden" th:text="${bing}" th:value="${bing}"></div>
+</body>
+</html>

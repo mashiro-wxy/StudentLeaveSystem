@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stu_leave.mapper.Stu_info_Mapper">
+    <resultMap id="Stu_infoResultMap"
+               type="com.stu_leave.entity.Student">
+        <result column="stu_no" jdbcType="VARCHAR" property="stu_no" />
+        <result column="stu_age" jdbcType="INTEGER" property="stu_age" />
+        <result column="stu_name" jdbcType="VARCHAR" property="stu_name" />
+        <result column="stu_phone" jdbcType="VARCHAR" property="stu_phone" />
+        <result column="stu_class" jdbcType="VARCHAR" property="stu_class" />
+        <result column="stu_pro" jdbcType="VARCHAR" property="stu_pro" />
+        <result column="stu_pwd" jdbcType="VARCHAR" property="stu_pwd" />
+        <result column="stu_sex" jdbcType="VARCHAR" property="stu_sex" />
+        <result column="stu_account" jdbcType="VARCHAR" property="stu_account" />
+    </resultMap>
+
+    <select id="getSingleStudent" parameterType="string"
+            resultType="com.stu_leave.entity.Student">
+        select * from stu_info where stu_no=#{stu_no}
+    </select>
+    <select id="getAllStudent" parameterType="string"
+            resultType="com.stu_leave.entity.Student">
+        select * from stu_info
+    </select>
+    <select id="getStudentPage" parameterType="string"
+            resultType="com.stu_leave.entity.Student">
+      select * from stu_info where ${whereCondition}
+      order by stu_no DESC
+      LIMIT #{1}, #{2}
+    </select>
+    <select id="getStudentPageByDynamicSql"
+            resultType="com.stu_leave.entity.Student">
+      select * from stu_info
+      <where>
+          <if test="stu_no != null and stu_no=' '">
+              and stu_no like concat('%',#{1},'%')
+          </if>
+      </where>
+      order by stu_no DESC
+      LIMIT #{1}, #{2}
+    </select>
+    <delete id="deleteStudent">
+        delete from stu_info where stu_no = #{0}
+    </delete>
+    <insert id="insertStudent"
+            parameterType="com.stu_leave.entity.Student">
+        insert  into stu_info(stu_no, stu_name, stu_pro, stu_sex,
+        stu_age, stu_phone, stu_class)
+        values (#{stu_no}, #{stu_name}, #{stu_pro}, #{stu_sex},
+        #{stu_age}, #{stu_phone}, #{stu_class})
+    </insert>
+    <update id="editStudent" parameterType="com.stu_leave.entity.Student">
+        update stu_info set stu_name=#{stu_name}, stu_pro=#{stu_pro}, stu_sex=#{stu_sex},
+        stu_age=#{stu_age}, stu_phone=#{stu_phone}, stu_class=#{stu_class}
+        where stu_no = #{stu_no}
+    </update>
+    <update id="updateAccount">
+        update stu_info set stu_account = stu_account + #{1}
+        where stu_no = #{0}
+    </update>
+
+</mapper>

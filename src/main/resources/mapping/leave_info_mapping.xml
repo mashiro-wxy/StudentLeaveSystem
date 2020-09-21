@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stu_leave.mapper.Leave_info_Mapper">
+    <resultMap id="Leave_infoResultMap"
+               type="com.stu_leave.entity.Student_leave">
+        <result column="stu_no;" jdbcType="VARCHAR" property="stu_no" />
+        <result column="stu_name;" jdbcType="VARCHAR" property="stu_name" />
+        <result column="submit_datetime;" jdbcType="VARCHAR" property="submit_datetime" />
+        <result column="leave_start;" jdbcType="VARCHAR" property="leave_start" />
+        <result column="leave_end;" jdbcType="VARCHAR" property="leave_end" />
+        <result column="leave_days;" jdbcType="INTEGER" property="leave_days" />
+        <result column="leave_type;" jdbcType="VARCHAR" property="leave_type" />
+        <result column="leave_reason;" jdbcType="VARCHAR" property="leave_reason" />
+    </resultMap>
+
+
+    <select id="getLeavePage" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state = '1' and delete_state = '0' and stu_no=#{3} and submit_datetime > '2019-9-1 00:00:00'
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getLeaveFdy" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state = '3' and delete_state = '0' and progress_state = '1' and submit_datetime > '2019-9-1 00:00:00'
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getLeaveProgress" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state between '2' and '3'
+      and stu_no = #{3} and submit_datetime > '2019-9-1 00:00:00'
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getLeaveSchool" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state = '3' and delete_state = '0' and progress_state = '2' and submit_datetime > '2019-9-1 00:00:00'
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getLeaveTeacher" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state = '2' and submit_datetime > '2019-9-1 00:00:00'
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getAllLeaveFdy" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item
+      where pass_state = '0' or pass_state = '2' or pass_state = '3' and submit_datetime > '2019-9-1 00:00:00'
+    </select>
+
+    <select id="getPassLeave" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state = '2' and stu_no=#{3} and submit_datetime > '2019-9-1 00:00:00'
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getGdPass" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state = '10' and stu_no=#{3}
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getGdUnpass" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state = '11' and stu_no=#{3}
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getPassLeaveFdy" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and progress_state = '2'
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getUnpassLeave" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state = '0' and stu_no=#{3}
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getUnpassLeaveFdy" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and pass_state = '0'
+      LIMIT #{1}, #{2}
+    </select>
+
+    <select id="getDeleteLeave" parameterType="string" resultType="com.stu_leave.entity.Student_leave">
+      select * from stu_leave_item where ${whereCondition}
+      and delete_state = '1' and stu_no=#{3}
+      LIMIT #{1}, #{2}
+    </select>
+
+
+    <update id="submitLeave">
+        update stu_leave_item set progress_state = '1' , pass_state = '3' where submit_datetime = #{0}
+    </update>
+
+    <update id="deleteLeave">
+        update stu_leave_item set delete_state = '1', pass_state = '99' where submit_datetime = #{0}
+    </update>
+
+    <update id="gdpLeave">
+        update stu_leave_item set pass_state = '10' where submit_datetime = #{0}
+    </update>
+
+    <update id="gdupLeave">
+        update stu_leave_item set pass_state = '11' where submit_datetime = #{0}
+    </update>
+
+    <update id="agreeLeave">
+        update stu_leave_item set progress_state = '2' where submit_datetime = #{0}
+    </update>
+
+    <update id="agreeLeaveSchool">
+        update stu_leave_item set progress_state = '3' , pass_state = '2' where submit_datetime = #{0}
+
+    </update>
+
+    <update id="disagreeLeave">
+        update stu_leave_item set pass_state = '0',progress_state = '0' where submit_datetime = #{0}
+    </update>
+
+    <update id="recoverLeave">
+        update stu_leave_item set delete_state = '0', pass_state = '1' where submit_datetime = #{0}
+    </update>
+
+    <delete id="removeLeave">
+        delete from stu_leave_item where delete_state = '1' and submit_datetime = #{0}
+    </delete>
+
+    <delete id="deleteAllLeave">
+        delete from stu_leave_item where delete_state = '1'
+    </delete>
+
+    <select id="getSingleLeave" parameterType="string"
+            resultType="com.stu_leave.entity.Student_leave">
+        select * from stu_leave_item where submit_datetime=#{submit_datetime}
+    </select>
+
+    <select id="getSingleLeave2" parameterType="string"
+            resultType="com.stu_leave.entity.Student_leave">
+        select * from stu_leave_item where progress_state between '1' and '2' and stu_no = #{0}
+    </select>
+
+    <update id="editLeave" parameterType="com.stu_leave.entity.Student_leave">
+        update stu_leave_item set stu_no=#{stu_no}, stu_name=#{stu_name}, leave_start=#{leave_start},
+        leave_end=#{leave_end}, leave_type=#{leave_type}, leave_reason=#{leave_reason}
+        where submit_datetime = #{submit_datetime}
+    </update>
+
+    <insert id="insertLeave" parameterType="com.stu_leave.entity.Student_leave">
+        insert into stu_leave_item(stu_no, stu_name, submit_datetime, leave_start,
+        leave_end, leave_type, leave_reason)
+        values (#{stu_no}, #{stu_name}, #{submit_datetime}, #{leave_start},
+        #{leave_end}, #{leave_type}, #{leave_reason})
+    </insert>
+
+    <update id="updatePwd">
+        update stu_info set stu_pwd=#{1}
+        where stu_no = #{0}
+    </update>
+
+
+</mapper>

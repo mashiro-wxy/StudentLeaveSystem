@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改请假信息</title>
+</head>
+<body>
+<div>
+    <form method="get" action="edit_leave">
+        <div>申请人学号<input readonly type="text" th:name="stu_no" th:value="${stu_leave.stu_no}"/></div>
+        <div>申请人姓名<input readonly type="text" th:name="stu_name" th:value="${stu_leave.stu_name}"/></div>
+        <div>申请提交时间<input readonly type="text" th:name="submit_datetime" th:value="${stu_leave.submit_datetime}"/></div>
+        <div>请假开始日期<input type="date" th:name="leave_start" th:value="${stu_leave.leave_start}"/></div>
+        <div>请假结束日期<input type="date" th:name="leave_end" th:value="${stu_leave.leave_end}"/></div>
+        <!--<div>请假天数<input type="text" th:name="leave_days" th:value="${stu_leave.leave_days}"/></div>-->
+        <div>请假类型
+            <select th:name="leave_type">
+                <option value="事假" th:selected="${stu_leave.leave_type=='事假'}">事假</option>
+                <option value="病假" th:selected="${stu_leave.leave_type=='病假'}">病假</option>
+                <option value="补假" th:selected="${stu_leave.leave_type=='事假'}">补假</option>
+                <option value="公假" th:selected="${stu_leave.leave_type=='公假'}">公假</option>
+            </select>
+        </div>
+        <div>请假原因<input type="text" th:name="leave_reason" th:value="${stu_leave.leave_reason}"/></div>
+
+        <div>
+            <input type="submit" value="提交"/>
+            <input type="reset" value="取消"/>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加请假信息</title>
+</head>
+<body>
+<div>
+    <form method="get" action="insert_leave">
+        <div>申请人学号<input type="text" th:name="stu_no" th:value="${stu_leave2.stu_no}" readonly/></div>
+        <div>申请人姓名<input type="text" th:name="stu_name" th:value="${stu_leave2.stu_name}" readonly/></div>
+        <div>申请提交时间<input type="text" th:name="submit_datetime" th:value="${stu_leave2.submit_datetime}" readonly/></div>
+        <div>请假开始日期<input type="date" th:name="leave_start"/></div>
+        <div>请假结束日期<input type="date" th:name="leave_end"/></div>
+        <div>请假类型
+            <select th:name="leave_type">
+                <option value="事假">事假</option>
+                <option value="病假">病假</option>
+                <option value="补假">补假</option>
+                <option value="公假">公假</option>
+            </select>
+        </div>
+        <div>请假原因<input type="text" th:name="leave_reason"/></div>
+
+        <div>
+            <input type="submit" value="提交"/>
+            <input type="reset" value="取消"/>
+        </div>
+    </form>
+</div>
+</body>
+</html>

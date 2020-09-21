@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>请假进度</title>
+    <style type="text/css">
+        /*body{text-align: center}*/
+        .f1{float: right}
+        .f2{text-align: right}
+        .c1{width: 20px; height: 20px; float: left; background-repeat: no-repeat; margin-left: 20px}
+        .c2{width: 110px; height: 15px; float: left; background-repeat: no-repeat; margin-left: 10px}
+        p{width: 300px; }
+        /*table{width: 800px}*/
+        a{text-decoration:none; color: black}
+        hr{width: 30%; color: red; margin-left: 0}
+        #s1{margin-left: 8px}
+        #s2{margin-left: 110px}
+        #s3{margin-left: 110px}
+        #index{display: none}
+    </style>
+    <link href="/jQuery/jquery-ui.css" rel="stylesheet" />
+    <script src="/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="/jQuery/jquery-ui.js"></script>
+    <script>
+        $(function(){
+            var state = $("#index").text();
+            if (state == 1){
+                $("#i1").css("background-image", "url('/img/images/icons/a2.png')");
+                $("#i2").css("background-image", "url('/img/images/icons/l2.png')");
+                $("#i3").css("background-image", "url('/img/images/icons/a2.png')");
+                $("#i4").css("background-image", "url('/img/images/icons/l2.png')");
+                $("#i5").css("background-image", "url('/img/images/icons/a2.png')");
+            }
+            if (state == 2){
+                $("#i1").css("background-image", "url('/img/images/icons/accept.png')");
+                $("#i2").css("background-image", "url('/img/images/icons/l1.png')");
+                $("#i3").css("background-image", "url('/img/images/icons/a2.png')");
+                $("#i4").css("background-image", "url('/img/images/icons/l2.png')");
+                $("#i5").css("background-image", "url('/img/images/icons/a2.png')");
+            }
+            if (state == 3){
+                $("#i1").css("background-image", "url('/img/images/icons/accept.png')");
+                $("#i2").css("background-image", "url('/img/images/icons/l1.png')");
+                $("#i3").css("background-image", "url('/img/images/icons/accept.png')");
+                $("#i4").css("background-image", "url('/img/images/icons/l1.png')");
+                $("#i5").css("background-image", "url('/img/images/icons/a2.png')");
+            }
+            if (state == 4){
+                $("#i1").css("background-image", "url('/img/images/icons/accept.png')");
+                $("#i2").css("background-image", "url('/img/images/icons/l1.png')");
+                $("#i3").css("background-image", "url('/img/images/icons/accept.png')");
+                $("#i4").css("background-image", "url('/img/images/icons/l1.png')");
+                $("#i5").css("background-image", "url('/img/images/icons/accept.png')");
+            }
+        })
+    </script>
+</head>
+<body>
+
+<div>
+    <form method="get" action="show_progress">
+        <a href="show_progress"><div><p>审批流程</p></div></a>
+        <div><span id="s1">辅导员</span> <span id="s2">学院</span> <span id="s3">任课老师</span></div>
+        <div id="i1" class="c1"></div> <div id="i2" class="c2"></div>
+            <div id="i3" class="c1"></div> <div id="i4" class="c2"></div>
+            <div id="i5" class="c1"></div>
+        <br>
+        <hr/>
+        <div><p>请假信息</p></div>
+        <hr/>
+        <div th:width="200">
+            <p>申请人学号<span class="f1" th:name="stu_no" th:text="${stu_leave3.stu_no}"></span></p>
+            <p>申请人姓名<span class="f1" th:name="stu_name" th:text="${stu_leave3.stu_name}"></span>
+            <p>申请提交时间<span class="f1"  th:name="submit_datetime" th:text="${stu_leave3.submit_datetime}"></span>
+            <p>请假开始日期<span class="f1" th:name="leave_start" th:text="${stu_leave3.leave_start}"></span>
+            <p>请假结束日期<span class="f1" th:name="leave_end" th:text="${stu_leave3.leave_end}"></span>
+            <p>请假天数<span class="f1" th:name="leave_days" th:text="${stu_leave3.leave_days}"></span>
+            <p>请假类型<span class="f1" th:name="leave_reason" th:text="${stu_leave3.leave_type}"></span>
+            <p>请假原因<span class="f1" th:name="leave_reason" th:text="${stu_leave3.leave_reason}"></span>
+        </div>
+
+        <div><p>请假课程清单</p></div>
+        <hr/>
+        <table >
+            <tr>
+                <td width="200" scope="col">课程名</td>
+                <td class="f2" width="80" scope="col">任课老师</td>
+            </tr>
+            <tr  th:each="item, itemStat: ${course_list}">
+                <td th:text="${item.course_name}"></td>
+                <td class="f1" th:text="${item.teacher_name}"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div id="index" th:text="${state}"></div>
+</body>
+</html>

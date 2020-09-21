@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div><a th:href="@{'show_leave_info_page?field=default&condition=&page_number=1&page_size=10'}" th:text="编辑中"></a></div>
+<div><a th:href="@{'show_pass_leave?field=default&condition=&page_number=1&page_size=10'}" th:text="通过"></a></div>
+<div><a th:href="@{'show_unpass_leave?field=default&condition=&page_number=1&page_size=10'}" th:text="不通过"></a></div>
+</body>
+</html>

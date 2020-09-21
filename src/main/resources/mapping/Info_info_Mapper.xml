@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stu_leave.mapper.Info_info_Mapper">
+    <resultMap id="Info_infoResultMap"
+               type="com.stu_leave.entity.Info">
+        <result column="submit_datetime;" jdbcType="VARCHAR" property="submit_datetime" />
+        <result column="course_no;" jdbcType="VARCHAR" property="course_no" />
+        <result column="teacher_no;" jdbcType="VARCHAR" property="teacher_no" />
+        <result column="teacher_name;" jdbcType="VARCHAR" property="teacher_name" />
+        <result column="course_name;" jdbcType="VARCHAR" property="course_name" />
+
+    </resultMap>
+
+    <select id="getCourse" parameterType="int"
+            resultType="com.stu_leave.entity.Info">
+        SELECT t.teacher_name , c.course_name
+        from course_info c INNER JOIN  teacher_info t
+        on t.teacher_no = c.teacher_no
+        where substring(course_time,1,1)between #{0} and #{1}
+    </select>
+
+
+</mapper>

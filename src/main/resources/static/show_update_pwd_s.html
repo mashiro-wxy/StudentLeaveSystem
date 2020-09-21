@@ -1,0 +1,65 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>修改密码</title>
+    <style>
+        body{
+            background-image:url('/images/3.jpg');
+            background-repeat:no-repeat;
+            background-position:top center;
+        }
+        #d2{
+            position:absolute;
+            left:819px;
+            top:432px;
+        }
+        #login{width:250px;height:200px;border:1px black solid;margin:150px auto;box-shadow:2px 2px 2px gray}
+        #header{height:50px;background-color:black;text-align:center;color:white;line-height:50px;font-size:x-large}
+        #content{height:120px;}
+        #content input{font-size:large;width:200px;margin:10px 25px 0}
+        #footer{text-align:center}
+        #footer button{height:30px;width:80px}
+    </style>
+    <link href="/jQuery/jquery-ui.css" rel="stylesheet" />
+    <script src="/jQuery/jquery-3.3.1.min.js"></script>
+    <script src="/jQuery/jquery-ui.js"></script>
+    <script>
+        $(function(){
+            $("#btnLogin").click(function(){
+                alert("修改成功");
+                $("#login").effect("shake");
+                /*$("#btnReset").click();	*/
+                $("#login").hide("blind",1000,function(){
+                    /*document.location.href="home.html"*/
+
+                });
+            })
+            $("#btnReset").click(function(){
+                $("#un").val("");
+                $("#pwd").val("");
+            });
+        })
+    </script>
+</head>
+
+<body>
+<div id="login">
+    <div id="header">修改密码</div>
+    <form method="get" action="/update_pwd">
+        <div id="content">
+            <input id="un" type="text" placeholder="UserId" name="stu_no" /><br />
+            <input id="opwd" type="password" placeholder="old password"  />
+            <input id="npwd" type="password" placeholder="new password" name="stu_pwd" />
+        </div>
+
+        <div id="footer">
+            <input type="submit" id="btnLogin" value="修改"/>
+        </div>
+    </form>
+
+</div>
+<!--<div id="d2"><a th:href="@{'check_login_web'}" title="返回" target="_self"><img src="/images/2.jpg" width="50" height="42" /></a></div>-->
+</body>
+</html>

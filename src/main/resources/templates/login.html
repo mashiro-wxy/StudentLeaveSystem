@@ -1,0 +1,72 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录</title>
+<style>
+body{
+	background-image:url('/images/3.jpg');
+	background-repeat:no-repeat;
+	background-position:top center;
+	}
+	#d2{
+	position:absolute;
+	left:819px;
+	top:432px;
+}
+	#login{width:250px;height:200px;border:1px black solid;margin:150px auto;box-shadow:2px 2px 2px gray}
+	#header{height:50px;background-color:black;text-align:center;color:white;line-height:50px;font-size:x-large}
+	#content{height:100px;}
+	#un,#pwd{font-size:large;width:200px;margin:10px 25px 0}
+	#footer{text-align:center}
+	#footer button{height:30px;width:80px}
+    #b1,#b2,#b3,#b4{ width: 10px;}
+    #bb{margin: 20px 10px; font-size: small}
+    #btnReset{margin-left: 30px}
+</style>
+<link href="/jQuery/jquery-ui.css" rel="stylesheet" />
+<script src="/jQuery/jquery-3.3.1.min.js"></script>
+<script src="/jQuery/jquery-ui.js"></script>
+<script>
+	$(function(){
+		$("#btnLogin").click(function(){
+			$("#login").effect("shake");
+			/*$("#btnReset").click();	*/
+			$("#login").hide("blind",1000,function(){
+			/*document.location.href="home.html"*/;
+			});	
+		})
+		$("#btnReset").click(function(){
+			$("#un").val("");
+			$("#pwd").val("");	
+		});
+	})
+</script>
+</head>
+
+<body>
+<div id="login">
+    	<div id="header">Login</div>
+    <form method="get" action="/check_login_web">
+        <div id="content">
+        	<input id="un" type="text" placeholder="UserId" name="no" /><br />
+            <input id="pwd" type="password" placeholder="Password" name="pwd" />
+            <span id="bb">
+                <input id="b1" type="radio" name="m1" value="教务" tabindex="3" /><label for="b1">教务</label>
+                <input id="b2" type="radio" name="m1" value="教师" tabindex="3" /><label for="b2">教师</label>
+                <input id="b3" type="radio" name="m1" value="学生" checked="checked" tabindex="3" /><label for="b3">学生</label>
+                <input id="b4" type="radio" name="m1" value="辅导员" tabindex="3" /><label for="b4">辅导员</label>
+            </span>
+        </div>
+
+        <div id="footer">
+            <input type="submit" id="btnLogin" value="Login" />
+            <input type="reset" id="btnReset" value="Reset"/>
+        </div>
+    </form>
+
+</div>
+    <div id="d2"><a th:href="@{'show_main'}" title="返回" target="_self"><img src="/images/2.jpg" width="50" height="42" /></a></div>
+</body>
+</html>
